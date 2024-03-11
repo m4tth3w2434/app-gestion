@@ -14,3 +14,18 @@ class User(UserMixin):
     
     def check_password(self, password):
         return check_password_hash(self.password, password)
+    
+    def __repr__(self):
+        return '<User {}>'.format(self.email)
+    
+users = []
+# Función para obtener un usuario por su dirección de correo electrónico
+def get_user(email):
+    # Itera sobre cada usuario en la lista
+    for user in users:
+        # Verifica si la dirección de correo electrónico coincide
+        if user.email == email:
+            # Devuelve el usuario si se encuentra una coincidencia
+            return user
+    # Devuelve None si no se encuentra ningún usuario con el correo electrónico proporcionado
+    return None
