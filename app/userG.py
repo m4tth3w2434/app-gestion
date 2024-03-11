@@ -28,4 +28,4 @@ def get_user(email):
             # Devuelve el usuario si se encuentra una coincidencia
             return user
     # Devuelve None si no se encuentra ningún usuario con el correo electrónico proporcionado
-    return None
+    return None 
