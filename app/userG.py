@@ -14,3 +14,14 @@ class User(UserMixin):
     
     def check_password(self, password):
         return check_password_hash(self.password, password)
+    
+    def __repr__(self):
+        return '<User {}>'.format(self.email)
+    
+users = []
+
+def get_user(email):
+    for user in users:
+        if user.email == email:
+            return user
+    return None
