@@ -1,13 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hola mundo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Empresa Comodín</title>
 </head>
 <body>
-    <h1>hola mundo</h1>
-    <p>hola mondazo de segunda</p>ffgdfgdfgdf
-    <h1>pruebasdd rauasdasdl2</h1>
+    <header>
+        <button id="login-btn">Iniciar Sesión</button>
+        <button id="register-btn">Registrarse</button>
+    </header>
+
+    <main>
+        <h1>Bienvenido a tu portal de trabajo</h1>
+        <p>En esta plataforma registramos los trabajos y tareas realizadas.</p>
+        <p label="aviso">¡No te olvides de iniciar sesión al empezar la jornada!</p>
+    </main>
 </body>
 </html>
