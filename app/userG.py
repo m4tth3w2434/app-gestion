@@ -1,5 +1,15 @@
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_mysqldb import MySQL
+from flask import Flask
+
+app = Flask(__name__)
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'password'
+app.config['MYSQL_DB'] = 'gestion'
+
+mysql = MySQL(app)
 
 class User(UserMixin):
     def __init__(self, id, name, email, password, is_Admin):
@@ -17,15 +27,29 @@ class User(UserMixin):
     
     def __repr__(self):
         return '<User {}>'.format(self.email)
-    
-users = []
+
 # Función para obtener un usuario por su dirección de correo electrónico
 def get_user(email):
-    # Itera sobre cada usuario en la lista
-    for user in users:
-        # Verifica si la dirección de correo electrónico coincide
-        if user.email == email:
-            # Devuelve el usuario si se encuentra una coincidencia
+    with app.app_context():  # Envolvemos nuestro código en el contexto de la aplicación Flask
+        # Abre una conexión a la base de datos
+        cur = mysql.connection.cursor()
+        
+        # Consulta SQL para buscar un usuario por su email
+        cur.execute("SELECT * FROM usuarios WHERE correo_electronico = %s", (email,))
+        user_data = cur.fetchone()  # Recupera el primer usuario encontrado
+        
+        cur.close()  # Cierra el cursor
+        
+        if user_data:
+            user = User(email=user_data[0])  # Crea un objeto Usuario con los datos recuperados
             return user
-    # Devuelve None si no se encuentra ningún usuario con el correo electrónico proporcionado
-    return None 
+        else:
+            return None
+
+# Ejemplo de uso
+email_a_buscar = 'correo@example.com'
+usuario_encontrado = get_user(email_a_buscar)
+if usuario_encontrado:
+    print("El usuario existe en la base de datos.")
+else:
+    print("El usuario no fue encontrado en la base de datos.")

@@ -3,15 +3,18 @@ from forms import SignupForm, LoginForm
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from userG import users, get_user
 
-from flask_mysqldb import MySQL
+import pymysql
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'password'
+app.config['MYSQL_PASSWORD'] = 'mateodaniel12'
 app.config['MYSQL_DB'] = 'gestion'
 
-mysql = MySQL(app)
+mysql = pymysql.connect(host=app.config['MYSQL_HOST'],
+                        user=app.config['MYSQL_USER'],
+                        password=app.config['MYSQL_PASSWORD'],
+                        db=app.config['MYSQL_DB'])
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mondongo'
