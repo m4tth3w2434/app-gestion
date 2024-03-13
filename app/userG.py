@@ -43,6 +43,7 @@ def get_user(email):
         if user_data:
             user = User(email=user_data[0])  # Crea un objeto Usuario con los datos recuperados
             return user
+<<<<<<< HEAD
         else:
             return None
 
@@ -53,3 +54,7 @@ if usuario_encontrado:
     print("El usuario existe en la base de datos.")
 else:
     print("El usuario no fue encontrado en la base de datos.")
+=======
+    # Devuelve None si no se encuentra ningún usuario con el correo electrónico proporcionado
+    return None 
+>>>>>>> 64458587ad5e9953c1990b6795aa13406cde5c1b
