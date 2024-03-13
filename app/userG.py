@@ -35,7 +35,7 @@ def get_user(email):
         cur = mysql.connection.cursor()
         
         # Consulta SQL para buscar un usuario por su email
-        cur.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
+        cur.execute("SELECT * FROM usuarios WHERE correo_electronico = %s", (email,))
         user_data = cur.fetchone()  # Recupera el primer usuario encontrado
         
         cur.close()  # Cierra el cursor
@@ -43,7 +43,6 @@ def get_user(email):
         if user_data:
             user = User(email=user_data[0])  # Crea un objeto Usuario con los datos recuperados
             return user
-<<<<<<< HEAD
         else:
             return None
 
@@ -54,7 +53,3 @@ if usuario_encontrado:
     print("El usuario existe en la base de datos.")
 else:
     print("El usuario no fue encontrado en la base de datos.")
-=======
-    # Devuelve None si no se encuentra ningún usuario con el correo electrónico proporcionado
-    return None 
->>>>>>> 64458587ad5e9953c1990b6795aa13406cde5c1b
