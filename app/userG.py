@@ -1,15 +1,18 @@
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_mysqldb import MySQL
+import pymysql
 from flask import Flask
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'password'
+app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'gestion'
 
-mysql = MySQL(app)
+mysql = pymysql.connect(host=app.config['MYSQL_HOST'],
+                        user=app.config['MYSQL_USER'],
+                        password=app.config['MYSQL_PASSWORD'],
+                        db=app.config['MYSQL_DB'])
 
 class User(UserMixin):
     def __init__(self, id, name, email, password, is_Admin):
