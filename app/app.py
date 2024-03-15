@@ -1,14 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for
 from forms import SignupForm, LoginForm
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
-from userG import users, get_user
+from userG import User, get_user
 
 import pymysql
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'mateodaniel12'
+app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'gestion'
 
 mysql = pymysql.connect(host=app.config['MYSQL_HOST'],
@@ -36,9 +36,7 @@ def signup():
         email = form.email.data
         password = form.password.data
         user = (name, email, password)
-        users.append(user)
         return redirect(url_for('index'))
     return render_template('login.html', form=form)
 
 app.run(debug=True)
-

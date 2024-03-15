@@ -1,15 +1,18 @@
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_mysqldb import MySQL
+import pymysql
 from flask import Flask
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'password'
+app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'gestion'
 
-mysql = MySQL(app)
+mysql = pymysql.connect(host=app.config['MYSQL_HOST'],
+                        user=app.config['MYSQL_USER'],
+                        password=app.config['MYSQL_PASSWORD'],
+                        db=app.config['MYSQL_DB'])
 
 class User(UserMixin):
     def __init__(self, id, name, email, password, is_Admin):
@@ -32,24 +35,30 @@ class User(UserMixin):
 def get_user(email):
     with app.app_context():  # Envolvemos nuestro código en el contexto de la aplicación Flask
         # Abre una conexión a la base de datos
-        cur = mysql.connection.cursor()
+        cur = mysql.cursor()
         
         # Consulta SQL para buscar un usuario por su email
-        cur.execute("SELECT * FROM usuarios WHERE correo_electronico = %s", (email,))
+        cur.execute("SELECT * FROM usuarios WHERE correo_electronico = %s", (email))
         user_data = cur.fetchone()  # Recupera el primer usuario encontrado
         
         cur.close()  # Cierra el cursor
         
         if user_data:
-            user = User(email=user_data[0])  # Crea un objeto Usuario con los datos recuperados
+<<<<<<< HEAD
+            user = email  # Crea un objeto Usuario con los datos recuperados
+=======
+            user = User(email=user_data)  # Crea un objeto Usuario con los datos recuperados
+>>>>>>> a052de3525f556a78b2735e1370f14c0bc88932f
             return user
         else:
             return None
 
 # Ejemplo de uso
-email_a_buscar = 'correo@example.com'
+email_a_buscar = 'raulpiromano@gmail.com'
 usuario_encontrado = get_user(email_a_buscar)
 if usuario_encontrado:
     print("El usuario existe en la base de datos.")
 else:
-    print("El usuario no fue encontrado en la base de datos.")
+    print("El usuario no fue encontrado en la base de datos.")
+
+
