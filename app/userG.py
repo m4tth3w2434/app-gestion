@@ -44,11 +44,7 @@ def get_user(email):
         cur.close()  # Cierra el cursor
         
         if user_data:
-<<<<<<< HEAD
             user = email  # Crea un objeto Usuario con los datos recuperados
-=======
-            user = User(email=user_data)  # Crea un objeto Usuario con los datos recuperados
->>>>>>> a052de3525f556a78b2735e1370f14c0bc88932f
             return user
         else:
             return None
