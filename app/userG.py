@@ -15,11 +15,12 @@ mysql = pymysql.connect(host=app.config['MYSQL_HOST'],
                         db=app.config['MYSQL_DB'])
 
 class User(UserMixin):
-    def __init__(self, id, name, email, password, is_Admin):
-        self.id = id
+    #datos de la tabla users:id, name, email, password, remember_me, is_Admin los dos ultimos booleanos
+    def __init__(self, name, email, password,remember_me, is_Admin):
         self.name = name
         self.email = email
         self.password = generate_password_hash(password)
+        self.remember_me = remember_me
         self.is_Admin = is_Admin
 
     def set_password(self, password):
@@ -32,6 +33,7 @@ class User(UserMixin):
         return '<User {}>'.format(self.email)
 
 # Función para obtener un usuario por su dirección de correo electrónico
+users = []
 def get_user(email):
     with app.app_context():  # Envolvemos nuestro código en el contexto de la aplicación Flask
         # Abre una conexión a la base de datos
@@ -50,11 +52,6 @@ def get_user(email):
             return None
 
 # Ejemplo de uso
-email_a_buscar = 'raulpiromano@gmail.com'
-usuario_encontrado = get_user(email_a_buscar)
-if usuario_encontrado:
-    print("El usuario existe en la base de datos.")
-else:
-    print("El usuario no fue encontrado en la base de datos.")
+
 
 
