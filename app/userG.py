@@ -15,6 +15,7 @@ mysql = pymysql.connect(host=app.config['MYSQL_HOST'],
                         db=app.config['MYSQL_DB'])
 
 class User(UserMixin):
+    #datos de la tabla users:id, name, email, password, remember_me, is_Admin los dos ultimos booleanos
     def __init__(self, name, email, password,remember_me, is_Admin):
         self.name = name
         self.email = email
