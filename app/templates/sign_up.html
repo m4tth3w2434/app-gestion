@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block header %}
-    <button id="login-btn"><a href="sign_up.html">Iniciar Sesión</a></button>
-    <button id="register-btn">Registrarse</button>
+ <a id="login-btn" href="{{ url_for('login')}}">Iniciar Sesión</a>
+ <a id="register-btn"href="{{ url_for('signup')}}">Registrarse</a>
 {% endblock %}
 
 {% block content %}
