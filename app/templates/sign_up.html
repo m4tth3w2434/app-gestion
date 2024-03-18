@@ -55,6 +55,9 @@
             {% endfor %}
         </div>
         <div>
+            {{ form.remember_me() }} {{ form.remember_me.label }}
+        </div>
+        <div>
             {{ form.submit(class="form-control") }}
         </div>
      </form>

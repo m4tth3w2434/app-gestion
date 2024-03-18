@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for,session
 from forms import SignupForm, LoginForm
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
-from userG import User, get_user,users
+from userG import User, get_user,users,database
 
 import pymysql
 app = Flask(__name__)
@@ -9,7 +9,7 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'gestion'
-
+mysql1= database()
 mysql = pymysql.connect(host=app.config['MYSQL_HOST'],
                         user=app.config['MYSQL_USER'],
                         password=app.config['MYSQL_PASSWORD'],
@@ -35,9 +35,13 @@ def signup():
         email = form.email.data
         password = form.password.data
         remember_me = form.remember_me.data
-        user = User(name,email,password,remember_me,False)
+        create_user = mysql1.create_user(name,email,password,remember_me,is_Admin=False)
+        ids = mysql1.get_user_by_id(email)
+        user = User(ids[0],name,email,password,remember_me,False)
         users.append(user)
+        print(users)
         login_user(user, remember=remember_me)
+        session['name'] = name
         return redirect(url_for('index'))
     return render_template('sign_up.html', form=form)
 

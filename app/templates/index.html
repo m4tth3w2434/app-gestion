@@ -7,6 +7,11 @@
     <title>Empresa Comodín</title>
 </head>
 <body>
+    {% if current_user.is_authenticated %}
+    <header>
+        <a id="login-btn" href="{{ url_for('login')}}">{{ current_user.name }}</a>
+    </header>
+    {% endif %}
     <header>
             <a id="login-btn" href="{{ url_for('login')}}">Iniciar Sesión</a>
             <a id="register-btn"href="{{ url_for('signup')}}">Registrarse</a>
