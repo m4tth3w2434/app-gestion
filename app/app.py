@@ -35,13 +35,12 @@ def signup():
         email = form.email.data
         password = form.password.data
         remember_me = form.remember_me.data
-        create_user = mysql1.create_user(name,email,password,remember_me,is_Admin=False)
+        user = User(name,email,password,remember_me,False)
+        create_user = mysql1.create_user(user.name, user.email, user.password, user.remember_me, user.is_Admin)
         ids = mysql1.get_user_by_id(email)
-        user = User(ids[0],name,email,password,remember_me,False)
+        user.set_id(ids)
         users.append(user)
-        print(users)
         login_user(user, remember=remember_me)
-        session['name'] = name
         return redirect(url_for('index'))
     return render_template('sign_up.html', form=form)
 

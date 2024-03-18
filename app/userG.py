@@ -16,8 +16,8 @@ mysql = pymysql.connect(host=app.config['MYSQL_HOST'],
 
 class User(UserMixin):
     #datos de la tabla users:id, name, email, password, remember_me, is_Admin los dos ultimos booleanos
-    def __init__(self,id, name, email, password,remember_me, is_Admin):
-        self.id = id
+    def __init__(self, name, email, password,remember_me, is_Admin):
+        self.id = 0
         self.name = name
         self.email = email
         self.password = generate_password_hash(password)
@@ -26,7 +26,8 @@ class User(UserMixin):
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
-    
+    def set_id(self,id):
+        self.id = id
     def check_password(self, password):
         return check_password_hash(self.password, password)
     
@@ -65,9 +66,8 @@ class database:
             user_data = cur.fetchone()  # Recupera el primer usuario encontrado
             
             cur.close()  # Cierra el cursor
-            print(user_data)
             if user_data:
-                user = user_data # Crea un objeto Usuario con los datos recuperados
+                user = user_data[0] # Crea un objeto Usuario con los datos recuperados
                 return user
             else:
                 return None
