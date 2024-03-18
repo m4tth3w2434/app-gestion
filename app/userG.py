@@ -32,6 +32,7 @@ class User(UserMixin):
         return '<User {}>'.format(self.email)
 
 # Función para obtener un usuario por su dirección de correo electrónico
+users = []
 def get_user(email):
     with app.app_context():  # Envolvemos nuestro código en el contexto de la aplicación Flask
         # Abre una conexión a la base de datos
@@ -50,11 +51,6 @@ def get_user(email):
             return None
 
 # Ejemplo de uso
-email_a_buscar = 'raulpiromano@gmail.com'
-usuario_encontrado = get_user(email_a_buscar)
-if usuario_encontrado:
-    print("El usuario existe en la base de datos.")
-else:
-    print("El usuario no fue encontrado en la base de datos.")
+
 
 
