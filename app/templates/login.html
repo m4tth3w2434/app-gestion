@@ -8,12 +8,9 @@
 <body>
     <main>
         <div>
-            <form action="" method="post" novalidate> <!-- Como validamos los datos desde el lado del servidor con WTForms de Flask, aquí descativamos la validación-->
-    
-                <!-- Añadimos este hidden_tag para poder trabajar con campos ocultos necesarios y así añadir una capa de seguridad, como puede ser los ataques CSRF-->
+            <form action="" method="post" novalidate> 
                 {{ form.hidden_tag() }}
                 
-                <!-- Renderizamos los diferentes campos del formulariop basado en WTForms -->
                 <div>
                     {{ form.email.label }}
                     {{ form.email }}<br>

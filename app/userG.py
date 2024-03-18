@@ -35,24 +35,26 @@ class User(UserMixin):
 def get_user(email):
     with app.app_context():  # Envolvemos nuestro código en el contexto de la aplicación Flask
         # Abre una conexión a la base de datos
-        cur = mysql.connection.cursor()
+        cur = mysql.cursor()
         
         # Consulta SQL para buscar un usuario por su email
-        cur.execute("SELECT * FROM usuarios WHERE correo_electronico = %s", (email,))
+        cur.execute("SELECT * FROM usuarios WHERE correo_electronico = %s", (email))
         user_data = cur.fetchone()  # Recupera el primer usuario encontrado
         
         cur.close()  # Cierra el cursor
         
         if user_data:
-            user = User(email=user_data[0])  # Crea un objeto Usuario con los datos recuperados
+            user = email  # Crea un objeto Usuario con los datos recuperados
             return user
         else:
             return None
 
 # Ejemplo de uso
-email_a_buscar = 'correo@example.com'
+email_a_buscar = 'raulpiromano@gmail.com'
 usuario_encontrado = get_user(email_a_buscar)
 if usuario_encontrado:
     print("El usuario existe en la base de datos.")
 else:
-    print("El usuario no fue encontrado en la base de datos.")
+    print("El usuario no fue encontrado en la base de datos.")
+
+
