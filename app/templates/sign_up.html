@@ -1,51 +1,31 @@
+{% extends 'base_templates.html' %}
 
-    {% block tittle %}
-     <title>Registro</title>
-    {% endblock %}
+{% block title %}
+    <title>Registro</title>
+{% endblock %}
 
-    <style>
-        form {
-            width: 300px;
-            margin: 0 auto;
-        }
-        input[type="text"], input[type="password"], input[type="email"], input[type="submit"] {
-            width: 100%;
-            margin-bottom: 10px;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        input[type="submit"] {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-    </style>
-    {% block header %}
-     <button id="login-btn"><a href="sign_up.html"></a>Iniciar Sesión</button>
-     <button id="register-btn">Registrarse</button>
-    {% endblock %}
+{% block header %}
+ <a id="login-btn" href="{{ url_for('login')}}">Iniciar Sesión</a>
+ <a id="register-btn"href="{{ url_for('signup')}}">Registrarse</a>
+{% endblock %}
 
-    {% block content %}
-     <h2>Registro</h2>
-        <form method="POST">
-            {{ form.hidden_tag() }}
-            <div>
-                {{ form.name.label }}<br>
-                {{ form.name(class="form-control") }}<br>
-                {% for error in form.name.errors %}
+{% block content %}
+    <h2>Registro</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.name.label }}<br>
+            {{ form.name(class="form-control") }}<br>
+            {% for error in form.name.errors %}
                 <span style="color: red;">{{ error }}</span><br>
-                {% endfor %}
-            </div>
-            <div>
-                {{ form.password.label }}<br>
-                {{ form.password(class="form-control") }}<br>
-                {% for error in form.password.errors %}
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.password.label }}<br>
+            {{ form.password(class="form-control") }}<br>
+            {% for error in form.password.errors %}
                 <span style="color: red;">{{ error }}</span><br>
-                {% endfor %}
+            {% endfor %}
         </div>
         <div>
             {{ form.email.label }}<br>
@@ -57,5 +37,5 @@
         <div>
             {{ form.submit(class="form-control") }}
         </div>
-     </form>
-    {% endblock %}
+    </form>
+{% endblock %}
