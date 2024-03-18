@@ -40,7 +40,7 @@ def get_user(email):
         cur = mysql.cursor()
         
         # Consulta SQL para buscar un usuario por su email
-        cur.execute("SELECT * FROM usuarios WHERE correo_electronico = %s", (email))
+        cur.execute("SELECT * FROM users WHERE email = %s", (email))
         user_data = cur.fetchone()  # Recupera el primer usuario encontrado
         
         cur.close()  # Cierra el cursor
