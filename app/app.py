@@ -65,32 +65,6 @@ def login():
 
             return redirect(next_page)
             
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    # si el usuario ya ha hecho login redirigimos a index
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    # inicializamos el formulario
-    form = LoginForm()
-    # si el usuario hace submit:
-    if form.validate_on_submit():
-        # comprobamos que el email está en la base de datos:
-        user = get_user(form.email.data)
-        if user is not None and user.check_password(form.password.data):
-        # si el usuario existe y la contraseña es correcta llamamos
-        # la función que loguea al usuario y vemos si ha clicado en "recordarme"
-            login_user(user, remember= form.remember_me.data)
-            # hacemos un next_page para enviar a un sitio u otro
-            next_page = request.args.get('next')
-            if not next_page or url_parse(next_page).netloc != '':
-                # si se cumple que todo está correcto redireccionamos a
-                next_page = url_for('index')
-            else:
-                # si no ha ido bien, volvemos a mostrar el login
-                next_page = url_for('login')
-
-            return redirect(next_page)
             
 
 app.run(debug=True)
