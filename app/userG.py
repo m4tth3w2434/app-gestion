@@ -15,11 +15,11 @@ mysql = pymysql.connect(host=app.config['MYSQL_HOST'],
                         db=app.config['MYSQL_DB'])
 
 class User(UserMixin):
-    def __init__(self, id, name, email, password, is_Admin):
-        self.id = id
+    def __init__(self, name, email, password,remember_me, is_Admin):
         self.name = name
         self.email = email
         self.password = generate_password_hash(password)
+        self.remember_me = remember_me
         self.is_Admin = is_Admin
 
     def set_password(self, password):

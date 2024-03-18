@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, url_parse
+from flask import Flask, render_template, request, redirect, url_for
 from forms import SignupForm, LoginForm
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from userG import User, get_user,users
@@ -31,15 +31,32 @@ def signup():
         return redirect(url_for('index'))
     form = SignupForm()
     if form.validate_on_submit():
-        
         name = form.name.data
         email = form.email.data
         password = form.password.data
         remember_me = form.remember_me.data
-        user = User(name,email,password,False)
+        user = User(name,email,password,remember_me,False)
+        users.append(user)
         login_user(user, remember=remember_me)
         return redirect(url_for('index'))
     return render_template('sign_up.html', form=form)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
+        remember_me = form.remember_me.data
+        user = get_user(email)
+        if user is not None and user.check_password(password):
+            login_user(user, remember=remember_me)
+            return redirect(url_for('index'))
+    return render_template('login.html', form=form)
+
+
 
 @login_manager.user_loader
 def load_user(user_id):
