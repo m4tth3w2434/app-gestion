@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+</head>
+<body>
+    <h1>Bienvenido {{ current.username }}</h1>
+    <h2>Listado de Empleados</h2>
+    <ul>
+        {% for user in users %}
+        <li>{{ user.nombre }} 
+            <a href="{{ url_for('mostrar_horas', id=empleado.id) }}">Mostrar Horas</a>
+            <a href="{{ url_for('mostrar_nomina', id=empleado.id) }}">Mostrar Nómina</a>
+            <a href="{{ url_for('informacion_empleado', id=empleado.id) }}">Información del Empleado</a>
+        </li>
+        {% endfor %}
+    </ul>
+    
+</body>
+</html>
