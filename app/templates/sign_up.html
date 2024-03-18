@@ -1,8 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     {% block tittle %}
      <title>Registro</title>
     {% endblock %}
@@ -28,24 +24,28 @@
             background-color: #0056b3;
         }
     </style>
-</head>
-<body>
-    <h2>Registro</h2>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <div>
-            {{ form.name.label }}<br>
-            {{ form.name(class="form-control") }}<br>
-            {% for error in form.name.errors %}
+    {% block header %}
+     <button id="login-btn"><a href="sign_up.html"></a>Iniciar Sesión</button>
+     <button id="register-btn">Registrarse</button>
+    {% endblock %}
+
+    {% block content %}
+     <h2>Registro</h2>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.name.label }}<br>
+                {{ form.name(class="form-control") }}<br>
+                {% for error in form.name.errors %}
                 <span style="color: red;">{{ error }}</span><br>
-            {% endfor %}
-        </div>
-        <div>
-            {{ form.password.label }}<br>
-            {{ form.password(class="form-control") }}<br>
-            {% for error in form.password.errors %}
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.password.label }}<br>
+                {{ form.password(class="form-control") }}<br>
+                {% for error in form.password.errors %}
                 <span style="color: red;">{{ error }}</span><br>
-            {% endfor %}
+                {% endfor %}
         </div>
         <div>
             {{ form.email.label }}<br>
@@ -57,6 +57,5 @@
         <div>
             {{ form.submit(class="form-control") }}
         </div>
-    </form>
-</body>
-</html>
+     </form>
+    {% endblock %}
