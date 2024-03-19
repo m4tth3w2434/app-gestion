@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for,session
 from forms import SignupForm, LoginForm
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
-from userG import User, get_user_by_id, get_user_by_email
-from conexionDB import database_connection, existing_user,create_user
+from conexionDB import UserDatabase
 
 import pymysql
 app = Flask(__name__)
@@ -12,12 +11,13 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'gestion'
 
+dbu = UserDatabase( app )
 login_manager = LoginManager( app )
 login_manager.login_view = 'login'
 
 @login_manager.user_loader
 def load_user(user_id):
-    return get_user_by_id(user_id)
+    return dbu.get_user_by_id(user_id)
 
 @app.route('/')
 def index():
@@ -32,7 +32,7 @@ def signup():
         password = form.password.data
         remember_me = form.remember_me.data
         admin = False
-        if existing_user(email):
+        if dbu.existing_user(email):
             print('Usuario ya registrado')
             return redirect(url_for('signup'))
         if admin == True:
@@ -43,8 +43,8 @@ def signup():
             remember_me = 1
         else:
             remember_me = 0
-        create_user(name, email, password, remember_me, admin)
-        login_user(user=get_user_by_email(email), remember=form.remember_me.data)
+        dbu.create_user(name, email, password, remember_me, admin)
+        login_user(user=dbu.get_user_by_email(email), remember=form.remember_me.data)
         return redirect(url_for('index'))
     return render_template('sign_up.html', form=form)
 
@@ -59,7 +59,7 @@ def login():
             remember_me = 1
         else:
             remember_me = 0
-        user = get_user_by_email(email)
+        user = dbu.get_user_by_email(email)
         print(user.password)
         if user and user.check_password(password):
             login_user(user, remember=form.remember_me.data)
