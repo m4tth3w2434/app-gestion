@@ -44,7 +44,7 @@ class UserDatabase:
                 cursor.execute('SELECT * FROM users WHERE id = %s', (user_id,))
                 user = cursor.fetchone()
                 if user:
-                    return User(id=user[0], name=user[1], email=user[2], password=user[3], remember_me=user[4])
+                    return User(id=user[0], name=user[1], email=user[2], password=user[3], is_admin=user[4], remember_me=user[5])
                 return None
     def get_user_by_email(self, email):
         with self.connect() as connection:
@@ -52,6 +52,6 @@ class UserDatabase:
                 cursor.execute('SELECT * FROM users WHERE email = %s', (email,))
                 user = cursor.fetchone()
                 if user:
-                    return User(id=user[0], name=user[1], email=user[2], password=user[3], remember_me=user[4])
+                    return User(id=user[0], name=user[1], email=user[2], password=user[3], is_admin=user[4], remember_me=user[5])
                 return None
             
