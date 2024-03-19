@@ -1,112 +1,39 @@
 from flask_login import UserMixin
+from conexionDB import database_connection
 from werkzeug.security import generate_password_hash, check_password_hash
-import pymysql
-from flask import Flask
-
-app = Flask(__name__)
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'gestion'
-
-mysql = pymysql.connect(host=app.config['MYSQL_HOST'],
-                        user=app.config['MYSQL_USER'],
-                        password=app.config['MYSQL_PASSWORD'],
-                        db=app.config['MYSQL_DB'])
-
 class User(UserMixin):
-    #datos de la tabla users:id, name, email, password, remember_me, is_Admin los dos ultimos booleanos
-    def __init__(self, name, email, password,remember_me, is_Admin):
-        self.id = 0
+    def __init__(self, id, name, email, password, remember_me):
+        self.id = id
         self.name = name
         self.email = email
-        self.password = generate_password_hash(password)
+        self.password = password
+        self.admin = False
         self.remember_me = remember_me
-        self.is_Admin = is_Admin
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
-    def set_id(self,id):
-        self.id = id
     def check_password(self, password):
         return check_password_hash(self.password, password)
-    
     def __repr__(self):
-        return '<User {}>'.format(self.email)
+        return f'<User: {self.email}>'
     
 
-class database:
-    def __init__(self):
-        self.app = app
-        self.mysql = mysql
-    def get_user(self,email):
-        with self.app.app_context():  # Envolvemos nuestro código en el contexto de la aplicación Flask
-            # Abre una conexión a la base de datos
-            cur = self.mysql.cursor()
-            
-            # Consulta SQL para buscar un usuario por su email
-            cur.execute("SELECT * FROM users WHERE correo_electronico = %s", (email))
-            user_data = cur.fetchone()  # Recupera el primer usuario encontrado
-            
-            cur.close()  # Cierra el cursor
-            
-            if user_data:
-                user = user_data  # Crea un objeto Usuario con los datos recuperados
-                return user
-            else:
-                return None
 
-    def get_user_by_id(self,email):
-        with self.app.app_context():  # Envolvemos nuestro código en el contexto de la aplicación Flask
-            # Abre una conexión a la base de datos
-            cur = self.mysql.cursor()
-            
-            # Como nuestra tabla tiene un id autoincremental, podemos buscar un la id del usuario con su email
-            cur.execute("SELECT id FROM users WHERE email = %s", (email))
-            user_data = cur.fetchone()  # Recupera el primer usuario encontrado
-            
-            cur.close()  # Cierra el cursor
-            if user_data:
-                user = user_data[0] # Crea un objeto Usuario con los datos recuperados
-                return user
-            else:
-                return None
-    def create_user(self,name,email,password,remember_me,is_Admin):
-        with self.app.app_context():
-            cur = self.mysql.cursor()
-            if remember_me == True:
-                remember_me = 1
-            else:
-                remember_me = 0
-            if is_Admin == True:
-                is_Admin = 1
-            else:
-                is_Admin = 0
-            cur.execute("INSERT INTO users (name,email,password,remember_me	,is_admin) VALUES (%s,%s,%s,%s,%s)",(name,email,password,remember_me,is_Admin))
-            self.mysql.commit()
-            cur.close()
-            return True
-
-# Función para obtener un usuario por su dirección de correo electrónico
-users = []
-def get_user(email):
-    with app.app_context():  # Envolvemos nuestro código en el contexto de la aplicación Flask
-        # Abre una conexión a la base de datos
-        cur = mysql.cursor()
-        
-        # Consulta SQL para buscar un usuario por su email
-        cur.execute("SELECT * FROM users WHERE correo_electronico = %s", (email))
-        user_data = cur.fetchone()  # Recupera el primer usuario encontrado
-        
-        cur.close()  # Cierra el cursor
-        
-        if user_data:
-            user = email  # Crea un objeto Usuario con los datos recuperados
-            return user
-        else:
+def get_user_by_id(user_id):
+    with database_connection() as connection:
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT * FROM users WHERE id = %s', (user_id,))
+            user = cursor.fetchone()
+            print(user)
+            if user:
+                return User(id=user[0], name=user[1], email=user[2], password=user[3], remember_me=user[4])
             return None
 
-# Ejemplo de uso
-
-
-
+def get_user_by_email(email):
+    with database_connection() as connection:
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT * FROM users WHERE email = %s', (email,))
+            user = cursor.fetchone()
+            if user:
+                return User(id=user[0], name=user[1], email=user[2], password=user[3], remember_me=user[4])
+            return None

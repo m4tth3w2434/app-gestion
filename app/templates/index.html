@@ -13,7 +13,11 @@
     </header>
     {% endif %}
     <header>
+        {% if not current_user.is_authenticated %}
             <a id="login-btn" href="{{ url_for('login')}}">Iniciar Sesión</a>
-            <a id="register-btn"href="{{ url_for('signup')}}">Registrarse</a>
+            <a id="register-btn" href="{{ url_for('signup')}}">Registrarse</a>
+        {% else %}
+            <a id="login-btn" href="{{ url_for('logout')}}">Cerrar Sesión</a>
+        {% endif %}
     </header>
 
