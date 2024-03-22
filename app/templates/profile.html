@@ -1,28 +1,37 @@
-{% extends 'base_templates.html' %}
-
-{% block title %}
-    <title>Perfil</title>
-{% endblock %}
-
-{% block content %}
-    <h1>Perfil de Usuario</h1>
-    <form method="POST">
-        {{ form.hidden_tag() }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <a id="login-btn" href="{{ url_for('index')}}">Home</a>
+        <a id="register-btn" href="{{ url_for('logout')}}">Cerrar Sesion</a>
+    </header>
+    <main>
+        <h1>Perfil</h1>
         <div>
-            {{ form.nombre.label }} {{ form.nombre(size=32) }}
+            <p>Nombre: {{ current_user.name }}</p>
+            <p>Email: {{ current_user.email }}</p>
+            {% if current_user.phone %}
+            <p>Telefono: {{ current_user.phone }}</p>
+            {% else %}
+            <p>Telefono: No registrado</p>
+            {% endif %}
+            {% if current_user.street %}
+            <p>Direccion: {{ current_user.street }}</p>
+            {% else %}
+            <p>Direccion: No registrada</p>
+            {% endif %}
+            {% if current_user.birthdate %}
+            <p>Fecha de nacimiento: {{ current_user.birthdate }}</p>
+            {% else %}
+            <p>Fecha de nacimiento: No registrada</p>
+            {% endif %}
+            <a href="{{ url_for('edit', user_id=current_user.id) }}">Editar Perfil</a>
         </div>
-        <div>
-            {{ form.email.label }} {{ form.email(size=32) }}
-        </div>
-        <div>
-            {{ form.telefono.label }} {{ form.telefono(size=32) }}
-        </div>
-        <div>
-            {{ form.calle.label }} {{ form.calle(size=32) }}
-        </div>
-        <div>
-            {{ form.submit(value="Guardar") }}
-        </div>
-    </form>
-    <a href="{{ url_for('edit_profile') }}" class="btn btn-primary">Editar Perfil</a>
-{% endblock %}
+    </main>
+</body>
+</html>

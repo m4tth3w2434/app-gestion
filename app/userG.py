@@ -8,6 +8,9 @@ class User(UserMixin):
         self.password = password
         self.admin = is_admin
         self.remember_me = remember_me
+        self.phone = "No registrado"
+        self.street = "No registrado"
+        self.birthdate = '1990-05-15'
 
     def set_password(self, password):
         self.password = generate_password_hash(password)

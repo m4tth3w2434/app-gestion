@@ -1,5 +1,5 @@
 {% extends 'base_templates.html' %}
-
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 {% block title %}
     <title>Editar Perfil</title>
 {% endblock %}
@@ -9,16 +9,19 @@
     <form method="POST">
         {{ form.hidden_tag() }}
         <div>
-            {{ form.nombre.label }} {{ form.nombre(size=32) }}
+            {{ form.name.label }} {{ form.name(size=32) }}
         </div>
         <div>
             {{ form.email.label }} {{ form.email(size=32) }}
         </div>
         <div>
-            {{ form.telefono.label }} {{ form.telefono(size=32) }}
+            {{ form.phone.label }} {{ form.phone(size=32) }}
         </div>
         <div>
-            {{ form.calle.label }} {{ form.calle(size=32) }}
+            {{ form.address.label }} {{ form.address(size=32) }}
+        </div>
+        <div>
+            {{ form.birthdate.label }} {{ form.birthdate(size=32) }}
         </div>
         <div>
             {{ form.submit(value="Guardar Cambios") }}
