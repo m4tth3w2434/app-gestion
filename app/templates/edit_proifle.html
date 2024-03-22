@@ -1,11 +1,11 @@
 {% extends 'base_templates.html' %}
 
 {% block title %}
-    <title>Perfil</title>
+    <title>Editar Perfil</title>
 {% endblock %}
 
 {% block content %}
-    <h1>Perfil de Usuario</h1>
+    <h1>Editar Perfil</h1>
     <form method="POST">
         {{ form.hidden_tag() }}
         <div>
@@ -21,8 +21,8 @@
             {{ form.calle.label }} {{ form.calle(size=32) }}
         </div>
         <div>
-            {{ form.submit() }}
+            {{ form.submit(value="Guardar Cambios") }}
         </div>
     </form>
-    <a href="{{ url_for('edit_profile') }}" class="btn btn-primary">Editar Perfil</a>
 {% endblock %}
+
