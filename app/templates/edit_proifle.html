@@ -1,11 +1,12 @@
 {% extends 'base_templates.html' %}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
 {% block title %}
     <title>Editar Perfil</title>
 {% endblock %}
 
 {% block content %}
-    <h1>Editar Perfil</h1>
+    <h1 class="h2">Editar Perfil</h1>
     <form method="POST">
         {{ form.hidden_tag() }}
         <div>
@@ -27,5 +28,7 @@
             {{ form.submit(value="Guardar Cambios") }}
         </div>
     </form>
+    <form action="{{ url_for('delete_profile') }}" method="POST">
+        <button type="submit" class="btn btn-danger">Eliminar Perfil</button>
+    </form>
 {% endblock %}
-
