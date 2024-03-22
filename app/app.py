@@ -5,26 +5,28 @@ from conexionDB import UserDatabase
 import datetime
 
 app = Flask(__name__)
+# Configuración de la aplicación
 app.config['SECRET_KEY'] = 'mondongo'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'gestion'
-
+# Crear una instancia de la base de datos
 dbu = UserDatabase( app )
 login_manager = LoginManager( app )
 login_manager.login_view = 'login'
-
+# Función para cargar un usuario
 @login_manager.user_loader
 def load_user(user_id):
     return dbu.get_user_by_id(user_id)
-
+# Ruta de inicio
 @app.route('/')
 def index():
     return render_template('index.html')
-
+# Ruta de registro
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    # Crear una instancia del formulario
     form = SignupForm()
     if form.validate_on_submit():
         name = form.name.data
@@ -32,8 +34,10 @@ def signup():
         password = form.password.data
         remember_me = form.remember_me.data
         admin = False
+        # Verificar si el usuario ya existe
         if dbu.existing_user(email):
             return redirect(url_for('signup'))
+        # Verificar si el usuario es administrador o no y modificar el valor para la base de datos
         if admin == True:
             admin = 1
         else:
@@ -42,6 +46,7 @@ def signup():
             remember_me = 1
         else:
             remember_me = 0
+        # Crear un nuevo usuario
         dbu.create_user(name, email, password, remember_me, admin)
         login_user(user=dbu.get_user_by_email(email), remember=form.remember_me.data)
         return redirect(url_for('index'))
@@ -49,17 +54,21 @@ def signup():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    # Crear una instancia del formulario
     form = LoginForm()
     if form.validate_on_submit():
+        # Intentar iniciar sesión
         try:
             email = form.email.data
             password = form.password.data
             remember_me = form.remember_me.data
+            #modificar el valor para la base de datos
             if remember_me == True:
                 remember_me = 1
             else:
                 remember_me = 0
             user = dbu.get_user_by_email(email)
+            # Verificar si el usuario existe y si la contraseña es correcta
             if user and user.check_password(password):
                 login_user(user, remember=form.remember_me.data)
                 return redirect(url_for('index'))
@@ -70,11 +79,13 @@ def login():
 @app.route('/panelAdministrdor')
 @login_required
 def dashboard():
+    # Verificar si el usuario es administrador
     if current_user.admin == 1:
         userstuple = dbu.get_all_users()
         users = []
+        # Iterar sobre los usuarios y modificar el valor numérico del rol
         for user in userstuple:
-            # Convertir el valor numérico en una cadena descriptiva
+            # Convertir el valor numérico en una cadena de texto para mostrar en la tabla
             role = "Administrador" if user[4] == 1 else "Empleado"
             # Crear una nueva tupla con el valor de rol modificado
             modified_user = (*user[:4], role, *user[5:])
@@ -86,13 +97,16 @@ def dashboard():
 @app.route('/profile/<int:user_id>')
 @login_required
 def profile(user_id):
+    # Obtener el usuario por su ID
     user = dbu.get_user_by_id(user_id)
     print(user)
     return render_template('profile.html', user=user)
 
 @app.route('/edit/<int:user_id>', methods=['GET', 'POST'])
 @login_required
+# Función para editar un usuario
 def edit(user_id):
+    # Obtener el usuario por su ID
     user = dbu.get_user_by_id(user_id)
     form = editForm()
     if form.validate_on_submit():

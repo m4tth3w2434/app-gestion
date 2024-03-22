@@ -5,33 +5,41 @@
 Editar Perfil - {{ user.name }}
 {% endblock %}
 
+{% block header %}
+<a id="login-btn" href="{{ url_for('index')}}">Home</a>
+{% endblock %}
+
 {% block content %}
-    <h1 class="h2">Editar Perfil</h1>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <div>
-            {{ form.name.label }} {{ form.name(size=32) }}
-        </div>
-        <div>
-            {{ form.email.label }} {{ form.email(size=32) }}
-        </div>
-        <div>
-            {{ form.phone.label }} {{ form.phone(size=32) }}
-        </div>
-        <div>
-            {{ form.address.label }} {{ form.address(size=32) }}
-        </div>
-        <div>
-            {{ form.birthdate.label }} {{ form.birthdate(size=32) }}
-        </div>
-        <div>
-            {{ form.submit(value="Guardar Cambios") }}
-        </div>
-    </form>
-    {% if current_user.admin == 1 %}
-    <form action="{{ url_for('delete_profile', user_id=user.id) }}" method="POST">
-        {{ form.hidden_tag() }}
-        <button type="submit" class="btn btn-danger">Eliminar Perfil</button>
-    </form>
-    {% endif %}
+<main class="fondoblur">
+    <div class="blur2">
+        <h1 class="h2">Editar Perfil</h1>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.name.label }} {{ form.name(size=32) }}
+            </div>
+            <div>
+                {{ form.email.label }} {{ form.email(size=32) }}
+            </div>
+            <div>
+                {{ form.phone.label }} {{ form.phone(size=32) }}
+            </div>
+            <div>
+                {{ form.address.label }} {{ form.address(size=32) }}
+            </div>
+            <div>
+                {{ form.birthdate.label }} {{ form.birthdate(size=32) }}
+            </div>
+            <div>
+                {{ form.submit(value="Guardar Cambios") }}
+            </div>
+        </form>
+        {% if current_user.admin == 1 %}
+        <form action="{{ url_for('delete_profile', user_id=user.id) }}" method="POST">
+            {{ form.hidden_tag() }}
+            <button type="submit" class="btn btn-danger">Eliminar Perfil</button>
+        </form>
+        {% endif %}
+    </div>
+</main>
 {% endblock %}
