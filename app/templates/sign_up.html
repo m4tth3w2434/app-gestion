@@ -6,11 +6,10 @@
 
 {% block header %}
  <a id="login-btn" href="{{ url_for('login')}}">Iniciar Sesión</a>
- <a id="register-btn"href="{{ url_for('signup')}}">Registrarse</a>
 {% endblock %}
 
 {% block content %}
-    <h2>Registro</h2>
+    <h2 class="h2">Registro</h2>
     <form method="POST">
         {{ form.hidden_tag() }}
         <div>

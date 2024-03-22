@@ -53,6 +53,10 @@ input[type="submit"]:hover {
     background-color: #0056b3;
 }
 
+.h2 {
+    text-align: center;
+}
+
 .btn {
     display: inline-block;
     padding: 0.5rem 1rem;
