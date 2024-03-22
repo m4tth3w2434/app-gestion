@@ -3,7 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <title>Panel de administrador</title>
+    <style>
+        /* styles.css */
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff; /* AliceBlue */
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+/* Encabezado */
+header {
+    background-color: #4682b4; /* SteelBlue */
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 2px solid #1e90ff; /* DodgerBlue */
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 1rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    transition: color 0.3s ease; /* Transición suave del color */
+}
+
+nav ul li a:hover {
+    color: #1e90ff; /* DodgerBlue */
+    text-decoration: underline; /* Subrayado al pasar el cursor */
+}
+
+/* Sección de usuarios */
+section {
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #1e90ff; /* DodgerBlue */
+    margin-bottom: 1rem;
+}
+
+#Inicio {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #00027c; /* Azul oscuro */
+    color: #fff;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+#Inicio:hover {
+    background-color: #000; /* Negro al pasar el cursor */
+}
+/* Enlaces de eliminación */
+a {
+    color: #ff0000; /* Red */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #d9534f; /* Red (ligeramente más oscuro) */
+}
+
+    </style>
 </head>
 <body>
     <main>
@@ -11,7 +100,7 @@
             <h1>Panel de administrador</h1>
             <nav>
                 <ul>
-                    <li><a href="{{ url_for('index') }}">Inicio</a></li>
+                    <li><a id="Inicio" href="{{ url_for('index') }}">Inicio</a></li>
                 </ul>
             </nav>
         </header>
