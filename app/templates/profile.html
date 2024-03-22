@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <header>
@@ -11,7 +12,7 @@
         <a id="register-btn" href="{{ url_for('logout')}}">Cerrar Sesion</a>
     </header>
     <main>
-        <h1>Perfil</h1>
+        <h1 class="h2">Perfil</h1>
         <div>
             <p>Nombre: {{ current_user.name }}</p>
             <p>Email: {{ current_user.email }}</p>
