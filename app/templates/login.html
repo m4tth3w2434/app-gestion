@@ -6,8 +6,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <title>Empresa Comodín - Log In</title>
 <body>
+    <header>
+        <a id="register-btn" href="{{ url_for('signup')}}">Registrarse</a>
+
+    </header>
     <main>
         <div>
+            <h2 class="h2">Iniciar sesión</h2>
             <form action="" method="post" novalidate> 
                 {{ form.hidden_tag() }}
                 
