@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for,session
-from forms import SignupForm, LoginForm
+from forms import SignupForm, LoginForm,editForm
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from conexionDB import UserDatabase
 
@@ -85,6 +85,27 @@ def profile(user_id):
     user = dbu.get_user_by_id(user_id)
     print(user)
     return render_template('profile.html', user=user)
+
+@app.route('/edit/<int:user_id>', methods=['GET', 'POST'])
+@login_required
+def edit(user_id):
+    user = dbu.get_user_by_id(user_id)
+    form = editForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        email = form.email.data
+        password = form.password.data
+        phone = form.phone.data
+        address = form.address.data
+        birthdate = form.birthdate.data
+        dbu.update_user(user_id, name, email, password, phone, address, birthdate)
+        return redirect(url_for('profile', user_id=user_id))
+    form.name.data = user.name
+    form.email.data = user.email
+    form.phone.data = user.phone
+    form.address.data = user.address
+    form.birthdate.data = user.birthdate
+    return render_template('edit.html', form=form)
     
 
 @app.route('/logout')

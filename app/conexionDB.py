@@ -44,7 +44,10 @@ class UserDatabase:
                 cursor.execute('SELECT * FROM users WHERE id = %s', (user_id,))
                 user = cursor.fetchone()
                 if user:
-                    return User(id=user[0], name=user[1], email=user[2], password=user[3], is_admin=user[4], remember_me=user[5])
+                    userC=User(id=user[0], name=user[1], email=user[2], password=user[3], is_admin=user[4], remember_me=user[5])
+                    cursor.execute('INSERT INTO detailsUsers (user_id,phone,street,birthday) VALUES (%s, %s, %s, %s)', (user_id, userC.phone, userC.street, userC.birthdate))
+                    connection.commit()
+                    return userC
                 return None
     def get_user_by_email(self, email):
         with self.connect() as connection:
