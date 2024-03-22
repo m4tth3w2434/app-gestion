@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <title>Panel de administrador</title>
+    <title>Panel de administrador || {{ current_user.name }}</title>
     <style>
         /* styles.css */
 
@@ -114,7 +114,7 @@ a:hover {
             <ul>
                 {% for user in users %}
                 <li>Nombre:{{ user[1] }} - Email:{{ user[2] }} - Tipo:{{ user[4] }}
-                    <a href="{{ url_for('profile', user_id=user[0]) }}">Eliminar</a>
+                    <a href="{{ url_for('profile', user_id=user[0]) }}">Perfil</a>
                 </li>
                 {% endfor %}
             </ul>

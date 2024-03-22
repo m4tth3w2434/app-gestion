@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil del Usuario</title>
+    <title>Perfil del Usuario - {{ user.name }}</title>
     <style>
         body {
     margin: 0;
@@ -76,24 +76,24 @@ main {
     <main>
         <h1 class="h2">Perfil</h1>
         <div>
-            <p>Nombre: {{ current_user.name }}</p>
-            <p>Email: {{ current_user.email }}</p>
-            {% if current_user.phone %}
-            <p>Telefono: {{ current_user.phone }}</p>
+            <p>Nombre: {{ user.name }}</p>
+            <p>Email: {{ user.email }}</p>
+            {% if user.phone %}
+            <p>Telefono: {{ user.phone }}</p>
             {% else %}
             <p>Telefono: No registrado</p>
             {% endif %}
-            {% if current_user.street %}
-            <p>Dirección: {{ current_user.street }}</p>
+            {% if user.street %}
+            <p>Dirección: {{ user.street }}</p>
             {% else %}
             <p>Dirección: No registrada</p>
             {% endif %}
-            {% if current_user.birthdate %}
-            <p>Fecha de nacimiento: {{ current_user.birthdate }}</p>
+            {% if user.birthdate %}
+            <p>Fecha de nacimiento: {{ user.birthdate }}</p>
             {% else %}
             <p>Fecha de nacimiento: No registrada</p>
             {% endif %}
-            <a href="{{ url_for('edit', user_id=current_user.id) }}" class="btn btn-primary">Editar Perfil</a>
+            <a href="{{ url_for('edit', user_id=user.id) }}" class="btn btn-primary">Editar Perfil</a>
         </div>
     </main>
 </body>

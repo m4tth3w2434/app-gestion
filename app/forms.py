@@ -19,7 +19,6 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 class editForm(FlaskForm):
     name = StringField('Nombre', validators=[ Length(max=64)])
-    password = PasswordField('Password')
     email = StringField('Email', validators=[Email()])
     phone = StringField('Telefono')
     address = StringField('Dirección')

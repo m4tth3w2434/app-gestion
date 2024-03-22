@@ -51,17 +51,20 @@ def signup():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        email = form.email.data
-        password = form.password.data
-        remember_me = form.remember_me.data
-        if remember_me == True:
-            remember_me = 1
-        else:
-            remember_me = 0
-        user = dbu.get_user_by_email(email)
-        if user and user.check_password(password):
-            login_user(user, remember=form.remember_me.data)
-            return redirect(url_for('index'))
+        try:
+            email = form.email.data
+            password = form.password.data
+            remember_me = form.remember_me.data
+            if remember_me == True:
+                remember_me = 1
+            else:
+                remember_me = 0
+            user = dbu.get_user_by_email(email)
+            if user and user.check_password(password):
+                login_user(user, remember=form.remember_me.data)
+                return redirect(url_for('index'))
+        except:
+            return redirect(url_for('login'))
     return render_template('login.html', form=form)
 
 @app.route('/panelAdministrdor')
@@ -95,22 +98,25 @@ def edit(user_id):
     if form.validate_on_submit():
         name = form.name.data
         email = form.email.data
-        password = form.password.data
         phone = form.phone.data
         street = form.address.data
         birthdate = form.birthdate.data
-        dbu.update_user(user_id, name, email, password, phone, street, birthdate)
+        dbu.update_user(user_id, name, email, phone, street, birthdate)
+        user.update_user(name, email, phone, street, birthdate)
         return redirect(url_for('index',))
     form.name.data = user.name
     form.email.data = user.email
     form.phone.data = user.phone
     form.address.data = user.street
-    form.birthdate.data = datetime.datetime.strptime(user.birthdate, '%Y-%m-%d')
-    return render_template('edit_proifle.html', form=form)
-@app.route('/delete/<int:user_id>')
+    form.birthdate.data = user.birthdate
+    return render_template('edit_proifle.html', form=form,user=user)
+@app.route('/delete/<int:user_id>', methods=['GET', 'POST'])
 @login_required
 def delete_profile(user_id):
     dbu.delete_user(user_id)
+    if current_user.id == user_id:
+        logout_user()
+        return redirect(url_for('index'))
     return redirect(url_for('index'))
     
 
