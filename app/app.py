@@ -107,6 +107,11 @@ def edit(user_id):
     form.address.data = user.street
     form.birthdate.data = datetime.datetime.strptime(user.birthdate, '%Y-%m-%d')
     return render_template('edit_proifle.html', form=form)
+@app.route('/delete/<int:user_id>')
+@login_required
+def delete_profile(user_id):
+    dbu.delete_user(user_id)
+    return redirect(url_for('index'))
     
 
 @app.route('/logout')
