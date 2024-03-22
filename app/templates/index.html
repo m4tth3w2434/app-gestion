@@ -12,6 +12,14 @@
         <a id="login-btn" href="{{ url_for('login')}}">{{ current_user.name }}</a>
     </header>
     {% endif %}
+    
+    {% if current_user.admin == 1 %}
+    <header>
+        <a id="login-btn" href="{{ url_for('dashboard')}}">Panel de Administrador</a>
+    </header>
+    {% endif %}
+
+
     <header>
         {% if not current_user.is_authenticated %}
             <a id="login-btn" href="{{ url_for('login')}}">Iniciar Sesión</a>

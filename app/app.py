@@ -3,7 +3,6 @@ from forms import SignupForm, LoginForm
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from conexionDB import UserDatabase
 
-import pymysql
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mondongo'
 app.config['MYSQL_HOST'] = 'localhost'
@@ -33,7 +32,6 @@ def signup():
         remember_me = form.remember_me.data
         admin = False
         if dbu.existing_user(email):
-            print('Usuario ya registrado')
             return redirect(url_for('signup'))
         if admin == True:
             admin = 1
@@ -60,11 +58,27 @@ def login():
         else:
             remember_me = 0
         user = dbu.get_user_by_email(email)
-        print(user.password)
         if user and user.check_password(password):
             login_user(user, remember=form.remember_me.data)
             return redirect(url_for('index'))
     return render_template('login.html', form=form)
+
+@app.route('/panelAdministrdor')
+@login_required
+def dashboard():
+    if current_user.admin == 1:
+        userstuple = dbu.get_all_users()
+        users = []
+        for user in userstuple:
+            # Convertir el valor numérico en una cadena descriptiva
+            role = "Administrador" if user[4] == 1 else "Empleado"
+            # Crear una nueva tupla con el valor de rol modificado
+            modified_user = (*user[:4], role, *user[5:])
+            users.append(modified_user)
+        return render_template('dashboard.html', users=users)
+    else:
+        return redirect(url_for('index'))
+    
 
 @app.route('/logout')
 @login_required

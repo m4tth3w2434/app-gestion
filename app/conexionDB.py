@@ -54,4 +54,12 @@ class UserDatabase:
                 if user:
                     return User(id=user[0], name=user[1], email=user[2], password=user[3], is_admin=user[4], remember_me=user[5])
                 return None
+    def get_all_users(self):
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                cursor.execute('SELECT * FROM users')
+                users = cursor.fetchall()
+                print(users)
+                return users
+
             
