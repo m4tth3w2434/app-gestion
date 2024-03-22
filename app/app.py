@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for,session
 from forms import SignupForm, LoginForm,editForm
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from conexionDB import UserDatabase
+import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mondongo'
@@ -96,16 +97,16 @@ def edit(user_id):
         email = form.email.data
         password = form.password.data
         phone = form.phone.data
-        address = form.address.data
+        street = form.address.data
         birthdate = form.birthdate.data
-        dbu.update_user(user_id, name, email, password, phone, address, birthdate)
-        return redirect(url_for('profile', user_id=user_id))
+        dbu.update_user(user_id, name, email, password, phone, street, birthdate)
+        return redirect(url_for('index',))
     form.name.data = user.name
     form.email.data = user.email
     form.phone.data = user.phone
-    form.address.data = user.address
-    form.birthdate.data = user.birthdate
-    return render_template('edit.html', form=form)
+    form.address.data = user.street
+    form.birthdate.data = datetime.datetime.strptime(user.birthdate, '%Y-%m-%d')
+    return render_template('edit_proifle.html', form=form)
     
 
 @app.route('/logout')

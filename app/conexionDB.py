@@ -35,7 +35,6 @@ class UserDatabase:
                 cursor.execute('INSERT INTO users (name, email, password, remember_me, is_admin) VALUES (%s, %s, %s, %s, %s)', (name, email, password, remember_me, admin))
                 connection.commit()
                 new_user_id = cursor.lastrowid
-                print('Usuario creado con id:', new_user_id)
                 return
 
     def get_user_by_id(self, user_id):
@@ -45,8 +44,6 @@ class UserDatabase:
                 user = cursor.fetchone()
                 if user:
                     userC=User(id=user[0], name=user[1], email=user[2], password=user[3], is_admin=user[4], remember_me=user[5])
-                    cursor.execute('INSERT INTO detailsUsers (user_id,phone,street,birthday) VALUES (%s, %s, %s, %s)', (user_id, userC.phone, userC.street, userC.birthdate))
-                    connection.commit()
                     return userC
                 return None
     def get_user_by_email(self, email):
@@ -62,7 +59,26 @@ class UserDatabase:
             with connection.cursor() as cursor:
                 cursor.execute('SELECT * FROM users')
                 users = cursor.fetchall()
-                print(users)
                 return users
+    def update_user(self,user_id,name, email, password, phone, street, birthdate):
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                def comprobar():
+                    cursor.execute('SELECT * FROM detailsUsers WHERE user_id = %s', (user_id,))
+                    user = cursor.fetchone()
+                    print("ads",user)
+
+                    if user:
+                        return True
+                    return False
+                if comprobar():
+                    password = generate_password_hash(password)
+                    cursor.execute('UPDATE users SET name=%s,email=%s,password=%s WHERE id=%s', (name, email, password, user_id))
+                    cursor.execute('UPDATE detailsUsers SET phone=%s,street=%s,birthday=%s WHERE user_id=%s', (phone, street, birthdate, user_id))
+                else:
+                    cursor.execute('INSERT INTO detailsUsers (user_id,phone,street,birthday) VALUES (%s, %s, %s, %s)', (user_id, phone, street, birthdate))
+                    connection.commit()
+                connection.commit()
+                return
 
             
