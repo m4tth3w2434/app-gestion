@@ -1,15 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Perfil del Usuario</title>
+    <style>
+        body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #3498db;
+    color: #fff;
+}
+
+header {
+    background-color: #2980b9;
+    padding: 10px;
+    text-align: right;
+}
+
+#login-btn, #register-btn {
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#login-btn:hover, #register-btn:hover {
+    background-color: #27ae60;
+}
+
+main {
+    padding: 50px;
+    font-size: 30px;
+}
+
+
+.h2 {
+    text-align: center;
+}
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+
+
+    </style>
 </head>
 <body>
     <header>
         <a id="login-btn" href="{{ url_for('index')}}">Home</a>
-        <a id="register-btn" href="{{ url_for('logout')}}">Cerrar Sesion</a>
+        <a id="register-btn" href="{{ url_for('logout')}}">Cerrar Sesión</a>
     </header>
     <main>
         <h1 class="h2">Perfil</h1>
@@ -22,16 +84,16 @@
             <p>Telefono: No registrado</p>
             {% endif %}
             {% if current_user.street %}
-            <p>Direccion: {{ current_user.street }}</p>
+            <p>Dirección: {{ current_user.street }}</p>
             {% else %}
-            <p>Direccion: No registrada</p>
+            <p>Dirección: No registrada</p>
             {% endif %}
             {% if current_user.birthdate %}
             <p>Fecha de nacimiento: {{ current_user.birthdate }}</p>
             {% else %}
             <p>Fecha de nacimiento: No registrada</p>
             {% endif %}
-            <a href="{{ url_for('edit', user_id=current_user.id) }}">Editar Perfil</a>
+            <a href="{{ url_for('edit', user_id=current_user.id) }}" class="btn btn-primary">Editar Perfil</a>
         </div>
     </main>
 </body>
