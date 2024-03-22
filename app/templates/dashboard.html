@@ -53,19 +53,23 @@ nav ul li a:hover {
 }
 
 #Inicio {
-    display: inline-block;
-    padding: 10px 30px;
-    background-color: #004979; /* Azul oscuro */
-    color: #fff;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-    cursor: pointer;
+    position: fixed; /* Fijamos la posición del botón */
+    z-index: 9999; /* Valor alto para que esté por encima de otros elementos */
+    top: 20px; /* Distancia desde la parte superior */
+    left: 20px; /* Distancia desde la parte izquierda */
+    background-color: #05004b; /* Color de fondo (azul oscuro) */
+    color: #fff; /* Color del texto */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 30px; /* Espaciado interno */
+    text-decoration: none; /* Sin subrayado */
+    transition: background-color 0.3s ease; /* Transición suave del color */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
 }
 
 #Inicio:hover {
-    background-color: #0011ff6e; /* Negro al pasar el cursor */
+    background-color: #0011ff6e; /* Color de fondo al pasar el cursor (negro con transparencia) */
 }
+
 /* Sección de usuarios */
 section {
     padding: 2rem;
