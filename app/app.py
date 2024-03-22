@@ -78,6 +78,13 @@ def dashboard():
         return render_template('dashboard.html', users=users)
     else:
         return redirect(url_for('index'))
+
+@app.route('/profile/<int:user_id>')
+@login_required
+def profile(user_id):
+    user = dbu.get_user_by_id(user_id)
+    print(user)
+    return render_template('profile.html', user=user)
     
 
 @app.route('/logout')
